@@ -3,6 +3,8 @@ import { withAccelerate } from "@prisma/extension-accelerate"
 
 let prisma: ReturnType<typeof createPrisma> | undefined
 
+
+
 function createPrisma(databaseUrl: string) {
   return new PrismaClient({
     accelerateUrl: databaseUrl,
