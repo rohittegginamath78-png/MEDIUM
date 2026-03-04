@@ -5,8 +5,12 @@ export const userRouter = new Hono<{ Bindings: Bindings }>();
 
 import { z } from "zod";
 import { sign } from "hono/jwt";
-import { Jwt } from "hono/utils/jwt";
 
+const signupSchema = z.object({
+  name : z.string().min(2),
+  email: z.string().email(),
+  password: z.string().min(6),
+});
 const signinSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
@@ -15,12 +19,20 @@ const signinSchema = z.object({
 userRouter.post("/signup", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
   const body = await c.req.json();
+  const parsedbody = signupSchema.safeParse(body);
+  if(!parsedbody.success){
+    return c.json({
+      error : " Invalid body creadentials"
+    })
+  }
+  const {email , password , name } = parsedbody.data
 
   try {
     await prisma.user.create({
       data: {
-        email: body.email,
-        password: body.password,
+        name,
+        email,
+        password,
       },
     });
     return c.text("user created ");
@@ -32,8 +44,14 @@ userRouter.post("/signup", async (c) => {
 
 userRouter.post("/signin", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
-  const { email, password } = await c.req.json();
-
+  const body = await c.req.json();
+  const parsedbody = signinSchema.safeParse(body);
+  if(!parsedbody.success){
+    return c.json({
+      error: " invalid body credentials"
+    },400)
+  }
+  const {email , password} = parsedbody.data;
   try {
     const user = await prisma.user.findFirst({
       where: {

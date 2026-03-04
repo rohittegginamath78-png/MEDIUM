@@ -1,14 +1,11 @@
 import { Hono } from "hono";
 import { Bindings } from "../types";
 import { getPrisma } from "../lib/Prisma";
-import { verify } from "hono/jwt";
-import { JWTPayload } from "hono/utils/jwt/types";
 import { Variables } from "../types";
 import { authMiddleware } from "../middleware/auth";
-import { auth } from "hono/utils/basic-auth";
-type JwtPayload = {
-  id: string
-}
+import {z} from "zod"
+
+
 
 export const blogRouter = new Hono<{
   Bindings: Bindings
