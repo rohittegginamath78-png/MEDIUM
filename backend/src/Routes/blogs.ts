@@ -4,7 +4,7 @@ import { getPrisma } from "../lib/Prisma";
 import { Variables } from "../types";
 import { authMiddleware } from "../middleware/auth";
 import {z} from "zod"
-import { createBlogInput , updateBlogInput } from "@rohit_000/mediums-common";
+import { createBlogInput } from "@rohit_000/mediums-common";
 
 
 export const blogRouter = new Hono<{
@@ -36,13 +36,17 @@ blogRouter.post("/blog",authMiddleware ,  async (c) => {
 });
 
 blogRouter.put("/blog/:id", authMiddleware , async (c) => {
-  const id = c.req.param("id");
+  try{
+    const id = c.req.param("id");
   const prisma = getPrisma(c.env.DATABASE_URL);
   const body = await c.req.json();
-  const parsedbody = updateBlogInput.safeParse(body);
+  const parsedbody = z.object({
+    title: z.string(),
+    content: z.string(),
+  }).safeParse(body);
 
   if(!parsedbody.success){
-    return c.json({message:"Invalid Inputs"})
+    return c.json({message:"Invalid Inputs"} ,400)
   }
   const {title , content} = parsedbody.data;
 
@@ -65,6 +69,10 @@ blogRouter.put("/blog/:id", authMiddleware , async (c) => {
   return c.json({
     id : updatepost.id
   })
+  }catch(e){
+    console.log(e);
+    return c.json({message:"Internal error"} ,500);
+  }
 });
 
 blogRouter.get("/bulk",async (c) => {
