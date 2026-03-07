@@ -1,5 +1,23 @@
 import { Link } from "react-router-dom";
+import { useState, type ChangeEvent } from "react";
+import type { SignupInput } from "@rohit_000/mediums-common";
+import axios from "axios";
+
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
+  const [input, setInput] = useState<Partial<SignupInput>>({});
+  async function fetchfn() {
+    try{
+    const response = await axios.post(
+      `https://backend.rohittegginamath78.workers.dev/api/v1/${type}`,
+      input
+    );
+
+    console.log(response.data);
+    }catch(e){
+        console.log(e);
+    }
+  }
+
   return (
     <div className="h-screen flex justify-center flex-col">
       <div className="flex justify-center">
@@ -20,15 +38,37 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
             </Link>
           </p>
           {type === "signup" && (
-            <input className="border p-2 w-full mt-4" placeholder="Username" />
+            <input
+              className="border p-2 w-full mt-4"
+              placeholder="Name"
+              onChange={(e) => setInput({ ...input, name: e.target.value })}
+            />
           )}
-          <input className="border p-2 w-full mt-2" placeholder="Email" />
-          <input
-            className="border p-2 w-full mt-2"
-            placeholder="Password"
-            type="password"
+          <Labelinput
+            label="Email"
+            placeholder="johndk@email.com"
+            onChange={(e) => {
+              setInput({
+                ...input,
+                email: e.target.value,
+              });
+            }}
           />
-          <button className="bg-black text-white w-full mt-4 p-2">
+          <Labelinput
+            label="password"
+            placeholder="********"
+            onChange={(e) => {
+              setInput({
+                ...input,
+                password: e.target.value,
+              });
+            }}
+          />
+
+          <button
+            onClick={fetchfn}
+            className="bg-black text-white w-full mt-4 p-2"
+          >
             {type === "signup" ? "Sign Up" : "Sign In"}
           </button>
         </div>
@@ -36,3 +76,26 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     </div>
   );
 };
+
+interface labelinputtype {
+  label: string;
+  placeholder: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+function Labelinput({ label, placeholder, onChange }: labelinputtype) {
+  return (
+    <div>
+      <label className="block mb-2.5 text-sm font-medium text-heading">
+        {label}
+      </label>
+      <input
+        type="text"
+        onChange={onChange}
+        className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+        placeholder={placeholder}
+        required
+      />
+    </div>
+  );
+}
