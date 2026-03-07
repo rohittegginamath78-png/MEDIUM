@@ -9,6 +9,7 @@
   "dependencies": {
     "@prisma/client": "^7.4.1",
     "@prisma/extension-accelerate": "^3.0.1",
+    "@rohit_000/mediums-common": "^1.1.0",
     "@types/dotenv": "^6.1.1",
     "dotenv": "^17.3.1",
     "hono": "^4.12.2",

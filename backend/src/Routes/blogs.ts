@@ -4,7 +4,7 @@ import { getPrisma } from "../lib/Prisma";
 import { Variables } from "../types";
 import { authMiddleware } from "../middleware/auth";
 import {z} from "zod"
-
+import { createBlogInput , updateBlogInput } from "@rohit_000/mediums-common";
 
 
 export const blogRouter = new Hono<{
@@ -15,14 +15,19 @@ export const blogRouter = new Hono<{
 
 blogRouter.post("/blog",authMiddleware ,  async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
-  const body = await c.req.json();
-  
+  const jsonbody = await c.req.json();
+  const body = createBlogInput.safeParse(jsonbody);
+  if(!body.success){
+    return c.json({error : "invalid inputs "} )
+  }
+
+  const {title  ,content } = body.data;
   const user = c.get("user");
   
   const post = await prisma.post.create({
     data: {
-      title: body.title,
-      content:body.content,
+      title,
+      content,
       authorId: user.id,
     },
 
@@ -34,6 +39,13 @@ blogRouter.put("/blog/:id", authMiddleware , async (c) => {
   const id = c.req.param("id");
   const prisma = getPrisma(c.env.DATABASE_URL);
   const body = await c.req.json();
+  const parsedbody = updateBlogInput.safeParse(body);
+
+  if(!parsedbody.success){
+    return c.json({message:"Invalid Inputs"})
+  }
+  const {title , content} = parsedbody.data;
+
   const user = c.get("user");
   
   const existingpost = await prisma.post.findUnique({
@@ -47,9 +59,8 @@ blogRouter.put("/blog/:id", authMiddleware , async (c) => {
     where :{
       id 
     }, data :{
-      title : body.title,
-      content : body.content
-    }
+      title ,
+      content}
   })
   return c.json({
     id : updatepost.id
@@ -58,7 +69,6 @@ blogRouter.put("/blog/:id", authMiddleware , async (c) => {
 
 blogRouter.get("/bulk",async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
-
   const post = await prisma.post.findMany()
 
   return c.json(post)

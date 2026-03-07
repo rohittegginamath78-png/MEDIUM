@@ -5,17 +5,18 @@ export const userRouter = new Hono<{ Bindings: Bindings }>();
 
 import { z } from "zod";
 import { sign } from "hono/jwt";
+import { signupSchema , signinSchema } from "@rohit_000/mediums-common";
 
-const signupSchema = z.object({
-  name : z.string().min(2),
-  email: z.string().email(),
-  password: z.string().min(6),
-});
+// const signupSchema = z.object({
+//   name : z.string().min(2),
+//   email: z.string().email(),
+//   password: z.string().min(6),
+// });
 
-const signinSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
+// const signinSchema = z.object({
+//   email: z.string().email(),
+//   password: z.string().min(6),
+// });
 
 userRouter.post("/signup", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
