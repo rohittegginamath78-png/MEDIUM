@@ -1,18 +1,14 @@
 import { Link } from "react-router-dom";
 import { useState, type ChangeEvent } from "react";
 import type { SignupInput } from "@rohit_000/mediums-common";
-import axios from "axios";
+import { api } from "../api";
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const [input, setInput] = useState<Partial<SignupInput>>({});
   async function fetchfn() {
     try{
-    const response = await axios.post(
-      `https://backend.rohittegginamath78.workers.dev/api/v1/${type}`,
-      input
-    );
-
-    console.log(response.data);
+    const {data} = await api.post(`${type}` , input)
+    console.log(data);
     }catch(e){
         console.log(e);
     }
