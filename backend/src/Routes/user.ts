@@ -5,7 +5,7 @@ export const userRouter = new Hono<{ Bindings: Bindings }>();
 
 import { z } from "zod";
 import { sign } from "hono/jwt";
-import { signupSchema , signinSchema } from "@rohit_000/mediums-common";
+import { signupSchema, signinSchema } from "@rohit_000/mediums-common";
 
 // const signupSchema = z.object({
 //   name : z.string().min(2),
@@ -22,22 +22,27 @@ userRouter.post("/signup", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
   const body = await c.req.json();
   const parsedbody = signupSchema.safeParse(body);
-  if(!parsedbody.success){
+  if (!parsedbody.success) {
     return c.json({
-      error : " Invalid body creadentials"
-    })
+      error: " Invalid body creadentials",
+    });
   }
-  const {email , password , name } = parsedbody.data
+  const { email, password, name } = parsedbody.data;
 
   try {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         name,
         email,
         password,
       },
     });
-    return c.text("user created ");
+    const token = await sign({
+      id : user.id
+    }, c.env.JWT_SECRET)
+    return c.json({
+      jwt : token , message:"user created"
+    });
   } catch (e) {
     console.log(e);
     return c.text("invalid");
@@ -48,12 +53,15 @@ userRouter.post("/signin", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
   const body = await c.req.json();
   const parsedbody = signinSchema.safeParse(body);
-  if(!parsedbody.success){
-    return c.json({
-      error: " invalid body credentials"
-    },400)
+  if (!parsedbody.success) {
+    return c.json(
+      {
+        error: " invalid body credentials",
+      },
+      400,
+    );
   }
-  const {email , password} = parsedbody.data;
+  const { email, password } = parsedbody.data;
   try {
     const user = await prisma.user.findFirst({
       where: {
@@ -75,8 +83,9 @@ userRouter.post("/signin", async (c) => {
     );
 
     return c.json({
-        jwt ,message:" WELCOME U FUCKER"
-    })
+      jwt,
+      message: " WELCOME U FUCKER",
+    });
   } catch (e) {
     console.log(e);
     return c.text("invalid");
