@@ -1,4 +1,4 @@
-import { Link ,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, type ChangeEvent } from "react";
 import type { SignupInput } from "@rohit_000/mediums-common";
 import { api } from "../api";
@@ -7,13 +7,13 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const [input, setInput] = useState<Partial<SignupInput>>({});
   const navigate = useNavigate();
   async function fetchfn() {
-    try{
-    const {data} = await api.post(`${type}` , input);
-    localStorage.setItem("token" , data.jwt)
-    navigate("/blogs")
-    console.log(data);
-    }catch(e){
-        console.log(e);
+    try {
+      const { data } = await api.post(`${type}`, input);
+      localStorage.setItem("token", data.jwt);
+      navigate("/blog");
+      console.log(data);
+    } catch (e) {
+      console.log(e);
     }
   }
 
