@@ -5,6 +5,7 @@ import { Variables } from "../types";
 import { authMiddleware } from "../middleware/auth";
 import {z} from "zod"
 import { createBlogInput } from "@rohit_000/mediums-common";
+import { tr } from "zod/locales";
 
 
 export const blogRouter = new Hono<{
@@ -75,9 +76,13 @@ blogRouter.put("/blog/:id", authMiddleware , async (c) => {
   }
 });
 
-blogRouter.get("/bulk",async (c) => {
+blogRouter.get("/blog/bulk",async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
-  const post = await prisma.post.findMany()
+  const post = await prisma.post.findMany({
+    include:{
+      author:true
+    }
+  })
 
   return c.json(post)
 
