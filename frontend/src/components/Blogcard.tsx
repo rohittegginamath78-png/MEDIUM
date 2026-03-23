@@ -1,4 +1,5 @@
 interface BlogcardProps {
+  id:string;
   title: string;
   authorname: string;
   content: string;
@@ -6,6 +7,7 @@ interface BlogcardProps {
 }
 
 export const Blogcard = ({
+  id,
   title,
   authorname,
   content,
