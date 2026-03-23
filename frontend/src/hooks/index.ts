@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { api } from "../api";
 type Blog = {
@@ -20,8 +19,22 @@ export const useBlogs=()=>{
             setblogs(response.data);
             setloading(false)
         })
-    })
+    },[])
     return {
          blogs , loading
     }
 } 
+export const useBlog=({id} : {id:string})=>{
+    const [loading , setloading ] = useState(true);
+    const [blog , setblog] = useState<Blog>();
+
+    useEffect(()=>{
+        api.get(`blog/${id}`).then(response =>{
+            setblog(response.data);
+            setloading(false)
+        })
+    } ,[id])
+    return {
+         blog, loading
+    }
+}
