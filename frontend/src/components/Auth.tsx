@@ -10,7 +10,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     try {
       const { data } = await api.post(`${type}`, input);
       localStorage.setItem("token", data.jwt);
-      navigate("/blog");
+      navigate("/blogs");
       console.log(data);
     } catch (e) {
       console.log(e);

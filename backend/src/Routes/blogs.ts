@@ -87,3 +87,31 @@ blogRouter.get("/blog/bulk",async (c) => {
   return c.json(post)
 
 });
+blogRouter.get("/blog/:id", async (c) => {
+  try {
+    const id = c.req.param("id");
+    const prisma = getPrisma(c.env.DATABASE_URL);
+
+    const post = await prisma.post.findUnique({
+      where: { id },
+      include: {
+        author: {
+          select: {
+            name: true,
+            email: true
+          }
+        }
+      }
+    });
+
+    if (!post) {
+      return c.json({ error: "Post not found" }, 404);
+    }
+
+    return c.json(post);
+
+  } catch (e) {
+    console.log(e);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+});

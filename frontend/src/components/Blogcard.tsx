@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 interface BlogcardProps {
   id:string;
   title: string;
@@ -14,6 +16,7 @@ export const Blogcard = ({
   publishedDate,
 }: BlogcardProps) => {
   return (
+    <Link to={`/blog/${id}`}>
     <div className="mx-auto w-full max-w-xl  bg-white p-6 border-b border-slate-200">
       <div className="mb-4 flex items-center gap-3 text-sm text-slate-600">
         <Avatar name={authorname} />
@@ -27,6 +30,7 @@ export const Blogcard = ({
         {`${Math.ceil(content.length / 100)} minutes`}
       </div>
     </div>
+    </Link>
   );
 };
 
