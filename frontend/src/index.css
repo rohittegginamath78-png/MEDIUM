@@ -1,1 +1,43 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+
+  /* Tailwind v4 color tokens */
+  --color-primary: #e3fd79;
+  --color-background: #050608;
+  --color-foreground: #f8fafc;
+}
+
+:root {
+  /* App-level tokens you can reuse */
+  --primary: #e3fd79;
+  --background: #050608;
+  --foreground: #f8fafc;
+}
+
+.dark {
+  --primary: #e3fd79;
+  --background: #050608;
+  --foreground: #f8fafc;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
