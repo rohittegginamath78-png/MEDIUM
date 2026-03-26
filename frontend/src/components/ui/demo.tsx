@@ -6,18 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Hero() {
   return (
-    <section className="relative pt-20 flex h-screen w-full  flex-col items-start justify-center overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2400&q=80)",
-        }}
-      >
-        <div className="absolute inset-0 bg-background/70" />
-        <div className="absolute inset-0 bg-[radial-gradient(80%_60%_at_20%_50%,rgba(227,253,121,0.18),transparent_60%)]" />
-      </div>
-
+    <section className="relative flex h-screen w-full flex-col items-start justify-center overflow-hidden pt-20">
       <div className="relative  z-10 w-full px-5 pb-14 text-text sm:px-8 sm:pb-20 lg:px-16">
         <div className="mx-auto grid w-full max-w-6xl gap-8 md:grid-cols-[1.15fr_0.85fr] md:items-center">
           <div className="space-y-5">

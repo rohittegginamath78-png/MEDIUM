@@ -6,6 +6,7 @@ import Signin from "./pages/SIgnin";
 import { Blog } from "./pages/Blog";
 import { Blogs } from "./pages/Blogs";
 import { Landing } from "./pages/Landing";
+import { Layout } from "./components/layout/Layout";
 
 function App() {
   useEffect(() => {
@@ -19,11 +20,46 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/blog/:id" element={<Blog />} />
-          <Route path="/blogs" element={<Blogs />} />
+          <Route
+            path="/"
+            element={
+              <Layout variant="hero">
+                <Landing />
+              </Layout>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <Layout variant="subtle">
+                <Signup />
+              </Layout>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <Layout variant="subtle">
+                <Signin />
+              </Layout>
+            }
+          />
+          <Route
+            path="/blog/:id"
+            element={
+              <Layout variant="subtle">
+                <Blog />
+              </Layout>
+            }
+          />
+          <Route
+            path="/blogs"
+            element={
+              <Layout variant="subtle">
+                <Blogs />
+              </Layout>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>

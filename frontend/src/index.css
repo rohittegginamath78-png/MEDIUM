@@ -79,14 +79,13 @@ PALETTE PRESETS (copy into :root/.dark above)
 }
 */
 /* 3) WARM EDITORIAL (soft premium warmth) */
-
 :root {
-  --bg: #fcfbf8;
-  --surface: #ffffff;
-  --text: #1f2937;
-  --muted: #6b7280;
-  --border: #ece7df;
-  --primary: #e3fd79;
+  --bg: #ffffff;
+  --surface: #f1f5f9;
+  --text: #020617;
+  --muted: #475569;
+  --border: #cbd5f5;
+  --primary: #bef264;
 }
 .dark {
   --bg: #111111;
@@ -124,5 +123,15 @@ body {
   }
   to {
     transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes bg-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(1.2%, -1.5%, 0) scale(1.03);
   }
 }

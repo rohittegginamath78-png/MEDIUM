@@ -3,7 +3,7 @@ import { Appbar } from "./layout/Appbar";
 
 export const FullBlog = ({ blog }: { blog: Blog }) => {
   return (
-    <div className="min-h-screen bg-background text-text">
+    <div className="min-h-screen text-text">
       <Appbar />
 
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 px-6 py-24 md:grid-cols-3">

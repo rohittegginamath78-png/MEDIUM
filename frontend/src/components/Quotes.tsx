@@ -1,7 +1,7 @@
 export const Quotes = () => {
   return (
-    <div className="flex h-screen items-center justify-center bg-surface text-text">
-      <div className="max-w-lg">
+    <div className="flex h-screen items-center justify-center text-text">
+      <div className="max-w-lg rounded-xl border border-border bg-surface/70 p-8 backdrop-blur-sm">
         <div className="text-3xl font-bold">
           "The customer service I received was exceptional..."
         </div>

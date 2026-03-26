@@ -18,7 +18,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   }
 
   return (
-    <div className="flex h-screen flex-col justify-center bg-background text-text">
+    <div className="flex h-screen flex-col justify-center text-text">
       <div className="flex justify-center">
         <div className="w-full max-w-md rounded-xl border border-border bg-surface p-6">
           <h1 className="text-3xl font-bold">

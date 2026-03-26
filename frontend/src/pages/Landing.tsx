@@ -3,7 +3,7 @@ import Hero from "@/components/ui/demo";
 
 export const Landing = () => {
   return (
-    <div className="h-screen w-full overflow-hidden bg-background text-text">
+    <div className="h-screen w-full overflow-hidden text-text">
       <Appbar />
       <Hero />
     </div>
