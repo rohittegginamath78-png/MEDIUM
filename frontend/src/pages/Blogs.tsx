@@ -4,14 +4,20 @@ import { useBlogs } from "../hooks";
 export const Blogs = () => {
   const { loading, blogs } = useBlogs();
   if (loading) {
-    return <div>loading...</div>;
+    return <div className="min-h-screen bg-background text-text p-8">Loading...</div>;
   }
   return (
     <>
       <Appbar></Appbar>
-      <div className="min-h-screen w-full  px-4 py-10">
+      <div className="min-h-screen w-full bg-background px-4 py-24">
+        <div className="mx-auto mb-6 w-full max-w-xl">
+          <h1 className="text-3xl font-bold text-text">Latest Blogs</h1>
+          <p className="mt-2 text-muted">Fresh writing from the Blog Zone community.</p>
+        </div>
+        <div className="space-y-4">
         {blogs.map((blog) => (
           <Blogcard
+            key={blog.id}
             id={blog.id}
             title={blog.title}
             content={blog.content}
@@ -19,6 +25,7 @@ export const Blogs = () => {
             publishedDate={"25 april 2024"}
           />
         ))}
+        </div>
       </div>
     </>
   );

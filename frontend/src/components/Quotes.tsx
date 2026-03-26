@@ -1,6 +1,6 @@
 export const Quotes = () => {
   return (
-    <div className="bg-gray-200 h-screen flex justify-center items-center">
+    <div className="flex h-screen items-center justify-center bg-surface text-text">
       <div className="max-w-lg">
         <div className="text-3xl font-bold">
           "The customer service I received was exceptional..."
@@ -10,7 +10,7 @@ export const Quotes = () => {
           Jules Winnfield
         </div>
 
-        <div className="text-gray-600">
+        <div className="text-muted">
           CEO, Acme Inc
         </div>
       </div>

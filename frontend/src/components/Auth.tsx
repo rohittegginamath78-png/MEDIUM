@@ -18,27 +18,27 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   }
 
   return (
-    <div className="h-screen flex justify-center flex-col">
+    <div className="flex h-screen flex-col justify-center bg-background text-text">
       <div className="flex justify-center">
-        <div>
+        <div className="w-full max-w-md rounded-xl border border-border bg-surface p-6">
           <h1 className="text-3xl font-bold">
             {type === "signup" ? "Create an account" : "Sign in"}
           </h1>
-          <p className="text-gray-500 mt-2">
+          <p className="mt-2 text-muted">
             {type === "signup"
               ? "Already have an account?"
               : "Don't have an account?"}
 
             <Link
               to={type === "signup" ? "/signin" : "/signup"}
-              className="underline ml-1"
+              className="ml-1 underline text-primary"
             >
               {type === "signup" ? "Login" : "Sign up"}
             </Link>
           </p>
           {type === "signup" && (
             <input
-              className="border p-2 w-full mt-4"
+              className="mt-4 w-full rounded-lg border border-border bg-background p-2 text-text"
               placeholder="Name"
               onChange={(e) => setInput({ ...input, name: e.target.value })}
             />
@@ -66,7 +66,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
 
           <button
             onClick={fetchfn}
-            className="bg-black text-white w-full mt-4 p-2"
+            className="mt-4 w-full rounded-lg bg-primary p-2 font-medium text-background"
           >
             {type === "signup" ? "Sign Up" : "Sign In"}
           </button>
@@ -85,13 +85,13 @@ interface labelinputtype {
 function Labelinput({ label, placeholder, onChange }: labelinputtype) {
   return (
     <div>
-      <label className="block mb-2.5 text-sm font-medium text-heading">
+      <label className="mb-2.5 block text-sm font-medium text-text">
         {label}
       </label>
       <input
         type="text"
         onChange={onChange}
-        className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+        className="block w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-text placeholder:text-muted focus:border-primary focus:outline-none"
         placeholder={placeholder}
         required
       />

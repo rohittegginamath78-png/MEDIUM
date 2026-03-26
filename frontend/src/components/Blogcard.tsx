@@ -17,16 +17,16 @@ export const Blogcard = ({
 }: BlogcardProps) => {
   return (
     <Link to={`/blog/${id}`}>
-    <div className="mx-auto w-full max-w-xl  bg-white p-6 border-b border-slate-200">
-      <div className="mb-4 flex items-center gap-3 text-sm text-slate-600">
+    <div className="mx-auto w-full max-w-xl border border-border bg-surface p-6 rounded-xl">
+      <div className="mb-4 flex items-center gap-3 text-sm text-muted">
         <Avatar name={authorname} />
         {authorname} . {publishedDate}
       </div>
       <div className="mb-4">
-        <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
-        <p className="mt-2 text-slate-700">{content.slice(0, 100) + "...."} </p>
+        <h1 className="text-2xl font-bold text-text">{title}</h1>
+        <p className="mt-2 text-muted">{content.slice(0, 100) + "...."} </p>
       </div>
-      <div className="mb-4 text-sm text-slate-500">
+      <div className="mb-4 text-sm text-muted">
         {`${Math.ceil(content.length / 100)} minutes`}
       </div>
     </div>
@@ -36,8 +36,8 @@ export const Blogcard = ({
 
 function Avatar({ name }: { name: string }) {
   return (
-    <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-neutral-tertiary rounded-full">
-      <span className="font-medium text-body">{name[0]}</span>
+    <div className="relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-background">
+      <span className="font-medium text-text">{name[0]}</span>
     </div>
   );
 }
