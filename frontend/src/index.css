@@ -1,0 +1,137 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+
+  /* Semantic color tokens mapped to CSS variables */
+  --color-background: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-foreground: var(--text);
+}
+/* 
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --text: #111827;
+  --muted: #4b5563;
+  --border: #e5e7eb;
+  --primary: #e3fd79;
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #0b0f0c;
+  --surface: #121815;
+  --text: #f8fafc;
+  --muted: #9ca3af;
+  --border: #242b27;
+  --primary: #e3fd79;
+} */
+
+/*
+PALETTE PRESETS (copy into :root/.dark above)
+
+1) PREMIUM SLATE (slightly bluish, modern SaaS)
+
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --border: #e2e8f0;
+  --primary: #e3fd79;
+}
+.dark {
+  --bg: #050608;
+  --surface: #0f1722;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --border: #1e293b;
+  --primary: #e3fd79;
+}
+*/
+/*
+2) NEUTRAL CLEAN (active now, less blue)
+:root {
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --text: #111827;
+  --muted: #4b5563;
+  --border: #e5e7eb;
+  --primary: #e3fd79;
+}
+.dark {
+  --bg: #0b0f0c;
+  --surface: #121815;
+  --text: #f8fafc;
+  --muted: #9ca3af;
+  --border: #242b27;
+  --primary: #e3fd79;
+}
+*/
+/* 3) WARM EDITORIAL (soft premium warmth) */
+:root {
+  --bg: #ffffff;
+  --surface: #f1f5f9;
+  --text: #020617;
+  --muted: #475569;
+  --border: #cbd5f5;
+  --primary: #bef264;
+}
+.dark {
+  --bg: #111111;
+  --surface: #171717;
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  --border: #2a2a2a;
+  --primary: #e3fd79;
+}
+
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes bg-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(1.2%, -1.5%, 0) scale(1.03);
+  }
+}

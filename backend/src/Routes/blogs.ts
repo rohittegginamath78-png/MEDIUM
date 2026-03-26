@@ -1,14 +1,12 @@
 import { Hono } from "hono";
 import { Bindings } from "../types";
 import { getPrisma } from "../lib/Prisma";
-import { verify } from "hono/jwt";
-import { JWTPayload } from "hono/utils/jwt/types";
 import { Variables } from "../types";
 import { authMiddleware } from "../middleware/auth";
-import { auth } from "hono/utils/basic-auth";
-type JwtPayload = {
-  id: string
-}
+import {z} from "zod"
+import { createBlogInput } from "@rohit_000/mediums-common";
+import { tr } from "zod/locales";
+
 
 export const blogRouter = new Hono<{
   Bindings: Bindings
@@ -18,14 +16,19 @@ export const blogRouter = new Hono<{
 
 blogRouter.post("/blog",authMiddleware ,  async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
-  const body = await c.req.json();
-  
+  const jsonbody = await c.req.json();
+  const body = createBlogInput.safeParse(jsonbody);
+  if(!body.success){
+    return c.json({error : "invalid inputs "} )
+  }
+
+  const {title  ,content } = body.data;
   const user = c.get("user");
   
   const post = await prisma.post.create({
     data: {
-      title: body.title,
-      content:body.content,
+      title,
+      content,
       authorId: user.id,
     },
 
@@ -34,9 +37,20 @@ blogRouter.post("/blog",authMiddleware ,  async (c) => {
 });
 
 blogRouter.put("/blog/:id", authMiddleware , async (c) => {
-  const id = c.req.param("id");
+  try{
+    const id = c.req.param("id");
   const prisma = getPrisma(c.env.DATABASE_URL);
   const body = await c.req.json();
+  const parsedbody = z.object({
+    title: z.string(),
+    content: z.string(),
+  }).safeParse(body);
+
+  if(!parsedbody.success){
+    return c.json({message:"Invalid Inputs"} ,400)
+  }
+  const {title , content} = parsedbody.data;
+
   const user = c.get("user");
   
   const existingpost = await prisma.post.findUnique({
@@ -50,20 +64,54 @@ blogRouter.put("/blog/:id", authMiddleware , async (c) => {
     where :{
       id 
     }, data :{
-      title : body.title,
-      content : body.content
-    }
+      title ,
+      content}
   })
   return c.json({
     id : updatepost.id
   })
+  }catch(e){
+    console.log(e);
+    return c.json({message:"Internal error"} ,500);
+  }
 });
 
-blogRouter.get("/bulk",async (c) => {
+blogRouter.get("/blog/bulk",async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
-
-  const post = await prisma.post.findMany()
+  const post = await prisma.post.findMany({
+    include:{
+      author:true
+    }
+  })
 
   return c.json(post)
 
+});
+blogRouter.get("/blog/:id", async (c) => {
+  try {
+    const id = c.req.param("id");
+    const prisma = getPrisma(c.env.DATABASE_URL);
+
+    const post = await prisma.post.findUnique({
+      where: { id },
+      include: {
+        author: {
+          select: {
+            name: true,
+            email: true
+          }
+        }
+      }
+    });
+
+    if (!post) {
+      return c.json({ error: "Post not found" }, 404);
+    }
+
+    return c.json(post);
+
+  } catch (e) {
+    console.log(e);
+    return c.json({ error: "Internal server error" }, 500);
+  }
 });
