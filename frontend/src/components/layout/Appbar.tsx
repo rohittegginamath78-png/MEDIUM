@@ -1,16 +1,25 @@
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { SearchBar } from "../ui/Searchbar";
 
 export const Appbar = () => {
   const location = useLocation();
   const isLanding = location.pathname === "/";
+
   const [isDark, setIsDark] = useState(() =>
     document.documentElement.classList.contains("dark"),
   );
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains("dark"));
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const toggleTheme = () => {
@@ -21,53 +30,57 @@ export const Appbar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50">
-      <div className="mx-auto max-w-9xl px-6 py-4">
-        <div
-          className={[
-            "flex items-center justify-between rounded-xl border px-4 py-2 backdrop-blur-md",
-            isLanding
-              ? "border-border/60 bg-background/30 text-text"
-              : "border-border bg-surface/90 text-text",
-          ].join(" ")}
-        >
-          <Link to="/" className="flex items-center gap-2">
-            <div className="relative flex h-9 w-9 items-center justify-center">
-              <div className="absolute inset-0 rounded-full bg-surface/70" />
-              <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_15px_rgba(227,253,121,0.7)]" />
-            </div>
-            <span className="font-semibold text-lg">Blog Zone</span>
-          </Link>
+    <div className="flex items-center justify-between gap-4 rounded-xl px-4 py-3 backdrop-blur-md border bg-surface/80 border-border">
 
-          <div className="flex items-center gap-6">
-            <Link
-              to="/blogs"
-              className="text-muted hover:text-text text-sm transition"
-            >
-              Blogs
-            </Link>
+  {/* LEFT */}
+  <Link to="/blogs" className="flex items-center gap-2 shrink-0">
+    <div className="relative flex h-9 w-9 items-center justify-center">
+      <div className="absolute inset-0 rounded-full bg-surface/70" />
+      <div className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_10px_rgba(227,253,121,0.5)]" />
+    </div>
+    <span className="font-semibold text-lg">Blog Zone</span>
+  </Link>
 
-            <button
-              onClick={toggleTheme}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-text transition hover:bg-background"
-              aria-label="Toggle theme"
-            >
-              {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
-            </button>
-
-            <Link
-              to="/signin"
-              className="rounded-full border border-border bg-surface px-4 py-1.5 text-sm text-text transition hover:bg-background"
-            >
-              Sign in
-            </Link>
-
-            <div className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-text">
-              B
-            </div>
-          </div>
-        </div>
+  {/* CENTER (Search - FIXED WIDTH + CENTERED) */}
+  {!isLanding && (
+    <div className="flex-1 flex justify-center">
+      <div className="w-full max-w-lg">
+        <SearchBar />
       </div>
     </div>
+  )}
+
+  {/* RIGHT */}
+  <div className="flex items-center gap-3 shrink-0">
+    
+    <Link
+      to="/create-blog"
+      className="rounded-full bg-primary px-4 py-1.5 text-sm text-background hover:scale-105 transition"
+    >
+      Create
+    </Link>
+
+    {!isLanding && (
+      <button
+        onClick={toggleTheme}
+        className="h-9 w-9 flex items-center justify-center rounded-full border border-border bg-surface hover:bg-[#2a2a2a]"
+      >
+        {isDark ? <Sun size={16} /> : <Moon size={16} />}
+      </button>
+    )}
+
+    <Link
+      to="/signin"
+      className="rounded-full border border-border bg-surface px-4 py-1.5 text-sm hover:bg-[#2a2a2a]"
+    >
+      Sign in
+    </Link>
+
+    <div className="h-9 w-9 flex items-center justify-center rounded-full border border-border bg-surface">
+      B
+    </div>
+
+  </div>
+</div>
   );
 };

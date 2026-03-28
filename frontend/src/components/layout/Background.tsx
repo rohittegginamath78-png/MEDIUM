@@ -21,7 +21,12 @@ export const Background = ({
   const shouldShowImage = showImage ?? variant === "hero";
 
   return (
-    <div className={cn("pointer-events-none fixed inset-0 z-0 overflow-hidden", className)}>
+    <div
+      className={cn(
+        "pointer-events-none absolute inset-0 z-0 overflow-hidden",
+        className,
+      )}
+    >
       {shouldShowImage && (
         <div
           className={cn(
@@ -41,13 +46,12 @@ export const Background = ({
 
       <div
         className={cn(
-          "absolute inset-0 motion-safe:animate-[bg-float_16s_ease-in-out_infinite]",
+          "absolute inset-0",
           variant === "hero"
-            ? "bg-[radial-gradient(80%_60%_at_20%_50%,rgba(163,230,53,0.18),transparent_60%)]"
-            : "bg-[radial-gradient(70%_50%_at_20%_30%,rgba(163,230,53,0.10),transparent_65%)]",
+            ? "bg-[radial-gradient(80%_60%_at_20%_50%,rgba(255,255,255,0.04),transparent_60%)]"
+            : "bg-[radial-gradient(70%_50%_at_20%_30%,rgba(255,255,255,0.03),transparent_65%)]",
         )}
       />
     </div>
   );
 };
-

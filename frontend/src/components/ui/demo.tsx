@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Hero() {
   return (
-    <section className="relative flex h-screen w-full flex-col items-start justify-center overflow-hidden pt-20">
+    <section className="relative flex min-h-screen w-full flex-col justify-center overflow-hidden pt-28">
       <div className="relative  z-10 w-full px-5 pb-14 text-text sm:px-8 sm:pb-20 lg:px-16">
         <div className="mx-auto grid w-full max-w-6xl gap-8 md:grid-cols-[1.15fr_0.85fr] md:items-center">
           <div className="space-y-5">

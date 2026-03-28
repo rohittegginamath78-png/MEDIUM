@@ -7,6 +7,7 @@ import { Blog } from "./pages/Blog";
 import { Blogs } from "./pages/Blogs";
 import { Landing } from "./pages/Landing";
 import { Layout } from "./components/layout/Layout";
+import { Create } from "./pages/Create";
 
 function App() {
   useEffect(() => {
@@ -60,6 +61,7 @@ function App() {
               </Layout>
             }
           />
+          <Route path="/create-blog" element={<Create/>} />
         </Routes>
       </BrowserRouter>
     </>
