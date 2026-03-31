@@ -1,41 +1,82 @@
 import type { Blog } from "../hooks";
-import { Appbar } from "./layout/Appbar";
+import { Heart, MessageCircle, Bookmark, Share2 } from "lucide-react";
 
-export const FullBlog = ({ blog }: { blog: Blog }) => {
+type FullBlogProps = {
+  blog?: Blog;
+};
+
+export const FullBlog = ({ blog }: FullBlogProps) => {
+  const authorName = blog?.author.name || "Anonymous";
+
+  const publishedAt = blog?.publishedAt
+    ? new Date(blog.publishedAt).toDateString()
+    : "Unknown date";
+
   return (
-    <div className="min-h-screen text-text">
-      <Appbar />
-
-      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 px-6 py-24 md:grid-cols-3">
-        <div className="md:col-span-2">
-          <h1 className="text-4xl font-extrabold leading-tight mb-4">
-            {blog.title}
-          </h1>
-
-          <p className="text-muted text-sm mb-6">
-            Posted on {blog.publishedAt || "Unknown date"}
-          </p>
-
-          <div className="text-lg text-text leading-relaxed space-y-4">
-            {blog.content}
-          </div>
-        </div>
-
-        <div className="h-fit rounded-2xl border border-border bg-surface p-6">
-          <p className="text-muted text-sm mb-3">Author</p>
-
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-background text-lg font-bold text-text">
-              {blog.author?.name?.[0] || "A"}
+    <div className="ml-64 pt-24 px-6">
+      <div className="mx-auto max-w-2xl">
+        {/* AUTHOR SECTION */}
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-3">
+            <div className="h-11 w-11 flex items-center justify-center rounded-full border border-border bg-surface text-text font-semibold">
+              {authorName[0]}
             </div>
 
             <div>
-              <h3 className="font-semibold text-lg">
-                {blog.author?.name || "Anonymous"}
-              </h3>
-
-              <p className="text-muted text-sm">Writes amazing blogs 🚀</p>
+              <p className="text-text font-medium">{authorName}</p>
+              <p className="text-sm text-muted">{publishedAt}</p>
             </div>
+          </div>
+
+          {/* FOLLOW BUTTON (optional UI touch) */}
+          <button className="px-4 py-1.5 text-sm rounded-full border border-border bg-surface hover:bg-primary hover:text-background transition">
+            Follow
+          </button>
+        </div>
+        {/* TITLE */}
+        <h1 className="text-4xl md:text-5xl font-bold leading-tight text-text mb-6">
+          {blog?.title}
+        </h1>
+        {/* SUB INFO */}
+        <div className="flex items-center gap-4 text-sm text-muted mb-10">
+          <span>{Math.ceil((blog?.content.length || 0) / 100)} min read</span>
+          <span>•</span>
+          <span>Published</span>
+        </div>
+        {/* DIVIDER */}
+        <div className="border-t border-border mb-10" />
+        {/* CONTENT */}
+        <article className="text-lg leading-8 text-muted space-y-6">
+          {blog?.content?.split("\n").map((para, index) => (
+            <p key={index}>{para}</p>
+          ))}
+        </article>
+        {/* BOTTOM ACTIONS */}
+        <div className="mt-12 pt-6 border-t border-border flex items-center justify-between">
+          {/* LEFT */}
+          <div className="flex items-center gap-6 text-muted text-sm">
+            <button className="flex items-center gap-2 hover:text-primary transition cursor-pointer">
+              <Heart size={18} />
+              <span>Like</span>
+            </button>
+
+            <button className="flex items-center gap-2 hover:text-primary transition cursor-pointer">
+              <MessageCircle size={18} />
+              <span>Comment</span>
+            </button>
+          </div>
+
+          {/* RIGHT */}
+          <div className="flex items-center gap-6 text-muted text-sm">
+            <button className="flex items-center gap-2 hover:text-primary transition cursor-pointer">
+              <Bookmark size={18} />
+              <span>Save</span>
+            </button>
+
+            <button className="flex items-center gap-2 hover:text-primary transition cursor-pointer">
+              <Share2 size={18} />
+              <span>Share</span>
+            </button>
           </div>
         </div>
       </div>

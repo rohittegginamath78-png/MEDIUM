@@ -7,11 +7,14 @@ import { Blog } from "./pages/Blog";
 import { Blogs } from "./pages/Blogs";
 import { Landing } from "./pages/Landing";
 import { Layout } from "./components/layout/Layout";
+import { Create } from "./pages/Create";
 
 function App() {
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
     const shouldUseDark = storedTheme ? storedTheme === "dark" : prefersDark;
     document.documentElement.classList.toggle("dark", shouldUseDark);
   }, []);
@@ -60,6 +63,7 @@ function App() {
               </Layout>
             }
           />
+          <Route path="/create-blog" element={<Create />} />
         </Routes>
       </BrowserRouter>
     </>
