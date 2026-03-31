@@ -10,8 +10,8 @@ export default {
         muted: "var(--muted)",
         border: "var(--border)",
         primary: "var(--primary)",
+        skeleton: "var(--skeleton)",
       },
     },
   },
 };
-

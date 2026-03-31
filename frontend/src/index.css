@@ -85,7 +85,9 @@ PALETTE PRESETS (copy into :root/.dark above)
   --text: #111827;
   --muted: #6b7280;
   --border: #e5e7eb;
-  --primary: #6366f1; /* subtle indigo */
+  --primary: #bdade7; /* subtle indigo */
+  --skeleton: #e5e7eb;        /* same as gray-200/300 */
+
 }
 
 .dark {
@@ -94,7 +96,9 @@ PALETTE PRESETS (copy into :root/.dark above)
   --text: #e5e5e5;      /* main text */
   --muted: #9ca3af;     /* secondary text */
   --border: #2a2a2a;    /* subtle borders */
-  --primary: #8b5cf6;   /* accent (buttons/icons) */
+  --primary: #8b5cf6;
+  --skeleton: rgba(255,255,255,0.08); /* same as white/10 */
+   /* accent (buttons/icons) */
 }
 
 

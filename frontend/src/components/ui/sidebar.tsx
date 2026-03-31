@@ -2,7 +2,6 @@ import {
   Home,
   Bookmark,
   User,
-  BarChart3,
   LogOut,
 } from "lucide-react";
 import { SidebarItem } from "./SidebarItem";
@@ -13,12 +12,11 @@ export function Sidebar() {
       {/* TOP */}
       <div>
         <h1 className="text-lg font-semibold mb-6 ">Blog Zone</h1>
-        <nav className="space-y-2 border-t border-border">
+        <nav className="space-y-2 border-border">
 
-          <SidebarItem icon={<Home size={20} />} label="Home" />
-          <SidebarItem icon={<Bookmark size={20} />} label="Bookmark" />
-          <SidebarItem icon={<User size={20} />} label="Profile" />
-          <SidebarItem icon={<BarChart3 size={20} />} label="Stats" />
+          <SidebarItem icon={<Home size={21} />} label="Home" to="/blogs"/>
+          <SidebarItem icon={<Bookmark size={20} />} label="Bookmark" to="/bookmark" />
+          <SidebarItem icon={<User size={20} />} label="Profile" to="profile"/>
 
         </nav>
       </div>
@@ -28,7 +26,6 @@ export function Sidebar() {
         <LogOut size={20} />
         Logout
       </button>
-
     </aside>
   );
 }
